@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Location Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <a class="navbar-brand" href="/">Rick & Morty</a>
+        <ul class="nav navbar-nav">
+            <li><a href="/characters">Characters</a></li>
+            <li><a href="/episodes">Episodes</a></li>
+            <li><a href="/locations">Locations</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 th:text="${pageTitle}">Location Form</h1>
+
+    <form th:action="@{${formAction}}" th:object="${locationDTO}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
+            <label for="name">Name</label>
+            <input id="name" type="text" class="form-control" th:field="*{name}"/>
+            <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+
+        <div class="form-group" th:classappend="${#fields.hasErrors('type')} ? 'has-error'">
+            <label for="type">Type</label>
+            <input id="type" type="text" class="form-control" th:field="*{type}"/>
+            <span class="help-block" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
+        </div>
+
+        <div class="form-group" th:classappend="${#fields.hasErrors('dimension')} ? 'has-error'">
+            <label for="dimension">Dimension</label>
+            <input id="dimension" type="text" class="form-control" th:field="*{dimension}"/>
+            <span class="help-block" th:if="${#fields.hasErrors('dimension')}" th:errors="*{dimension}"></span>
+        </div>
+
+        <div class="form-group" th:classappend="${#fields.hasErrors('characterIds')} ? 'has-error'">
+            <label for="characterIds">Characters (selecciona al menos uno)</label>
+            <select id="characterIds" class="form-control" multiple="multiple" size="6" th:field="*{characterIds}">
+                <option th:each="c : ${characters}" th:value="${c.id}" th:text="${c.name}"></option>
+            </select>
+            <span class="help-block" th:if="${#fields.hasErrors('characterIds')}" th:errors="*{characterIds}"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="/locations" class="btn btn-default">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
